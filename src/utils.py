@@ -1,5 +1,6 @@
 import re
-import constants
+# import constants
+from src.constants import allowed_units
 import os
 import requests
 import pandas as pd
@@ -15,11 +16,11 @@ from PIL import Image
 
 
 def common_mistake(unit):
-    if unit in constants.allowed_units:
+    if unit in allowed_units:
         return unit
-    if unit.replace('ter', 'tre') in constants.allowed_units:
+    if unit.replace('ter', 'tre') in allowed_units:
         return unit.replace('ter', 'tre')
-    if unit.replace('feet', 'foot') in constants.allowed_units:
+    if unit.replace('feet', 'foot') in allowed_units:
         return unit.replace('feet', 'foot')
     return unit
 
@@ -34,9 +35,9 @@ def parse_string(s):
     parts = s_stripped.split(maxsplit=1)
     number = float(parts[0])
     unit = common_mistake(parts[1])
-    if unit not in constants.allowed_units:
+    if unit not in allowed_units:
         raise ValueError("Invalid unit [{}] found in {}. Allowed units: {}".format(
-            unit, s, constants.allowed_units))
+            unit, s, allowed_units))
     return number, unit
 
 
